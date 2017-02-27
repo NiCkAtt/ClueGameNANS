@@ -140,7 +140,7 @@ public class IntBoadTests {
 	//start in the middle (space 5), move 2 spaces
 	@Test
 	public void testTargets5_2(){
-		BoardCell cell = game.getCell(0, 1);
+		BoardCell cell = game.getCell(1, 1);
 		game.calcTargets(cell, 2);
 		Set targets = game.getTargets();
 		assertEquals(6, targets.size());
