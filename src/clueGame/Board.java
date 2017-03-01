@@ -43,4 +43,21 @@ public class Board {
 	public void calcTargets(BoardCell cell, int pathLength){
 		
 	}
+	
+	public Map<Character, String> getLegend(){
+		return null;
+	}
+
+	public int getNumRows() {
+		return 0;
+	}
+
+	public int getNumColumns() {
+		return 0;
+	}
+	
+	public BoardCell getCell(int x, int y){
+		return null;
+	}
+	
 }

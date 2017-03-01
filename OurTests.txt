@@ -1,0 +1,7 @@
+We made sure in our legend to test several room, but also wanted to make sure that we also testing non-card rooms such
+as walkway and closet. We also made sure to test first and last item in the legend.
+
+As for the spaces, we tried to sample from across the map with a variety of different rooms rather than just one general
+area. We had plenty of doors to choose from, so we just made sure to select the ones that were up, down, left, and right.
+
+Also tested walkways from different parts of the board.

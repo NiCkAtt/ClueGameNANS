@@ -1,0 +1,11 @@
+H, Helstrom, card
+I, Imperial City, card
+T, Torval, card
+K, Alik'r, card
+D, Daggerfall, card
+B, Blacklight, card
+S, Solitude, card
+A, Alinor, card
+F, Falinesti, card
+X, Closet, other
+W, Walkway, other

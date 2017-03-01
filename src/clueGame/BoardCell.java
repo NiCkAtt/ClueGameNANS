@@ -30,4 +30,10 @@ public class BoardCell {
 	public String toString() {
 		return "BoardCell [row=" + row + ", column=" + column + "]";
 	}
+	public DoorDirection getDoorDirection() {
+		return null;
+	}
+	public char getInitial() {
+		return ' ';
+	}
 }
