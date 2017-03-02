@@ -4,22 +4,39 @@ public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
+	private DoorDirection doorDir = null;
 	
 	public BoardCell(){
 		row=0;
 		column=0;
 	}
-	public BoardCell(int x, int y){
+	public BoardCell(int x, int y, char c){
 		row=y;
 		column=x;
+		initial = c;
 	}
 	
 	public boolean isWalkway(){
-		return false;
+		return this.initial == 'W';
+	}
+	
+	public void makeDoor(char dir){
+		if(dir == 'D'){
+			this.doorDir = DoorDirection.DOWN;
+		}
+		if(dir == 'U'){
+			this.doorDir = DoorDirection.UP;
+		}
+		if(dir == 'L'){
+			this.doorDir = DoorDirection.LEFT;
+		}
+		if(dir == 'R'){
+			this.doorDir = DoorDirection.RIGHT;
+		}
 	}
 	
 	public boolean isDoorway(){
-		return false;
+		return !(this.doorDir == null);
 	}
 
 	public boolean isRoom(){
@@ -31,9 +48,9 @@ public class BoardCell {
 		return "BoardCell [row=" + row + ", column=" + column + "]";
 	}
 	public DoorDirection getDoorDirection() {
-		return null;
+		return doorDir;
 	}
 	public char getInitial() {
-		return ' ';
+		return initial;
 	}
 }
