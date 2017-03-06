@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import clueGame.BoardCell;
 
 public class Board {
 	private int numRows;
@@ -15,7 +17,6 @@ public class Board {
 	
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
-	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
@@ -174,6 +175,19 @@ public class Board {
 	//Exact same as above, but Rader called it something different in her tests
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
+	}
+
+	public Set<BoardCell> getAdjList(int x, int y) {
+		return null;
+	}
+
+	public void calcTargets(int i, int j, int dist) {
+		// TODO Auto-generated method stub
+	}
+
+	public Set<BoardCell> getTargets() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
