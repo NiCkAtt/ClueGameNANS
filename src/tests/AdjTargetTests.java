@@ -91,6 +91,9 @@ public class AdjTargetTests {
 		testList = board.getAdjList(doorX, doorY-1);
 		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY+1);
+		for (BoardCell cell : testList){
+			System.out.println(cell.getX() + " " + cell.getY() + " " + cell.getInitial());
+		}
 		assertTrue(testList.contains(board.getCell(doorX, doorY)));
 		
 		//this door can only be accessed from the top
@@ -113,9 +116,9 @@ public class AdjTargetTests {
 		testList = board.getAdjList(doorX+1, doorY);
 		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY-1);
-		assertTrue(testList.contains(board.getCell(doorX, doorY)));
+		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY+1);
-		assertTrue(testList.contains(board.getCell(doorX, doorY)));
+		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		
 		//this door can only be accessed from the right
 		doorX = 16;
@@ -125,9 +128,9 @@ public class AdjTargetTests {
 		testList = board.getAdjList(doorX+1, doorY);
 		assertTrue(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY-1);
-		assertTrue(testList.contains(board.getCell(doorX, doorY)));
+		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY+1);
-		assertTrue(testList.contains(board.getCell(doorX, doorY)));
+		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 	}
 	
 	@Test

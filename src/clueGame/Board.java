@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.Set;
 import clueGame.BoardCell;
 
+//As a forward note to avoid confusion, when working with the coordinates of a cell,
+//with board[][] first bracket is the rows (y) and the second is the column (x)
 public class Board {
 	private int numRows;
 	private int numColumns;
@@ -17,6 +19,7 @@ public class Board {
 	
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
+	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
@@ -50,8 +53,7 @@ public class Board {
 				for(String s:boardSpaces){
 					columns++;
 				}
-			}
-			
+			}	
 			rows++;
 		}
 
@@ -97,6 +99,10 @@ public class Board {
 		}
 		
 		readIn.close();
+		
+		//adjacencies will be precalculated here
+		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
+		this.calcAdjacencies();
 	}
 	
 	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException{
@@ -149,13 +155,74 @@ public class Board {
 	}
 	
 	public void calcAdjacencies(){
-		
+		Set<BoardCell> adjacencies;
+		//first the board cell at location will be tested for three different types:
+		//room, doorway, and walkway
+		for (int i = 0; i < numRows; i++){
+			for (int j = 0; j < numColumns; j++){
+				adjacencies = new HashSet<BoardCell>(); // will need a new hashset for every cell
+
+				if (board[i][j].isRoom() | board[i][j].getInitial() == 'X'){ //test to see if current cell is a room or closet
+					adjMatrix.put(board[i][j], adjacencies);
+					continue;
+				}
+				
+				if (board[i][j].isDoorway()){ //test to see if it's a doorway
+					if (board[i][j].getDoorDirection() == DoorDirection.UP)
+						adjacencies.add(board[i-1][j]);
+					if (board[i][j].getDoorDirection() == DoorDirection.DOWN)
+						adjacencies.add(board[i+1][j]);
+					if (board[i][j].getDoorDirection() == DoorDirection.LEFT)
+						adjacencies.add(board[i][j-1]);
+					if (board[i][j].getDoorDirection() == DoorDirection.RIGHT)
+						adjacencies.add(board[i][j+1]);
+					
+					//assuming doorways can move along adjacent doorways of any type,
+					//this will add any cells that are adjacent doorways
+					/*if (i>0 && board[i-1][j].isDoorway()) adjacencies.add(board[i-1][j]);
+					if (i < board.length-1 && board[i+1][j].isDoorway()) adjacencies.add(board[i+1][j]);
+					if (j>0 && board[i][j-1].isDoorway()) adjacencies.add(board[i][j-1]);
+					if (j<board[i].length-1 && board[i][j+1].isDoorway()) adjacencies.add(board[i][j+1]);*/
+						
+					adjMatrix.put(board[i][j], adjacencies);
+					continue;
+				}
+
+				//this will test for walkway now
+				if(i > 0){ //then there's a space above us
+					//each if will test to see if adjacent cell is a walkway or a valid doorway
+					if (board[i-1][j].isWalkway())
+						adjacencies.add(board[i-1][j]);
+					else if (board[i-1][j].isDoorway() && board[i-1][j].getDoorDirection() == DoorDirection.DOWN)
+						adjacencies.add(board[i-1][j]);
+				}
+				if(i < board.length-1){ //then there's a space below us
+					if (board[i+1][j].isWalkway())
+						adjacencies.add(board[i+1][j]);
+					else if (board[i+1][j].isDoorway() && board[i+1][j].getDoorDirection() == DoorDirection.UP)
+						adjacencies.add(board[i+1][j]);
+				}
+				if(j > 0){ //then there's a space to the left us
+					if (board[i][j-1].isWalkway())
+						adjacencies.add(board[i][j-1]);
+					else if (board[i][j-1].isDoorway() && board[i][j-1].getDoorDirection() == DoorDirection.RIGHT)
+						adjacencies.add(board[i][j-1]);
+				}
+				if(j < board[i].length-1){ //then there's a space to the right us
+					if (board[i][j+1].isWalkway())
+						adjacencies.add(board[i][j+1]);
+					else if (board[i][j+1].isDoorway() && board[i][j+1].getDoorDirection() == DoorDirection.LEFT)
+						adjacencies.add(board[i][j+1]);
+				}
+				adjMatrix.put(board[i][j], adjacencies);
+			}
+		}
 	}
-	
+
 	public void calcTargets(BoardCell cell, int pathLength){
-		
+
 	}
-	
+
 	public Map<Character, String> getLegend(){
 		return legend;
 	}
@@ -167,18 +234,19 @@ public class Board {
 	public int getNumColumns() {
 		return numColumns;
 	}
-	
+
 	public BoardCell getCell(int x, int y){
-		return board[x][y];
-	}
-	
-	//Exact same as above, but Rader called it something different in her tests
-	public BoardCell getCellAt(int x, int y){
-		return board[x][y];
+		return board[y][x];
 	}
 
+	//Exact same as above, but Rader called it something different in her tests
+	public BoardCell getCellAt(int x, int y){
+		return board[y][x];
+	}
+
+	//will return set based on key value of cell associated with x and y
 	public Set<BoardCell> getAdjList(int x, int y) {
-		return null;
+		return adjMatrix.get(this.getCell(x, y));
 	}
 
 	public void calcTargets(int i, int j, int dist) {
@@ -186,8 +254,7 @@ public class Board {
 	}
 
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

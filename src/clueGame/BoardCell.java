@@ -40,7 +40,7 @@ public class BoardCell {
 	}
 
 	public boolean isRoom(){
-		return false;
+		return (this.initial != 'W' && this.initial != 'X' && this.doorDir == null);
 	}
 	
 	@Override
@@ -52,5 +52,13 @@ public class BoardCell {
 	}
 	public char getInitial() {
 		return initial;
+	}
+	
+	//temp bs
+	public int getX(){
+		return column;
+	}
+	public int getY(){
+		return row;
 	}
 }
