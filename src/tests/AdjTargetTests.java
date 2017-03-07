@@ -91,9 +91,9 @@ public class AdjTargetTests {
 		testList = board.getAdjList(doorX, doorY-1);
 		assertFalse(testList.contains(board.getCell(doorX, doorY)));
 		testList = board.getAdjList(doorX, doorY+1);
-		for (BoardCell cell : testList){
-			System.out.println(cell.getX() + " " + cell.getY() + " " + cell.getInitial());
-		}
+//		for (BoardCell cell : testList){
+//			System.out.println(cell.getX() + " " + cell.getY() + " " + cell.getInitial());
+//		}
 		assertTrue(testList.contains(board.getCell(doorX, doorY)));
 		
 		//this door can only be accessed from the top
@@ -229,7 +229,8 @@ public class AdjTargetTests {
 		
 		board.calcTargets(14,16,4);
 		testList = board.getTargets();
-		assertEquals(testList.size(), 7);
+		System.out.println(testList);
+		assertEquals(testList.size(), 8);
 		//"inner ring" of allowable targets
 		assertTrue(testList.contains(board.getCell(14, 14)));
 		assertTrue(testList.contains(board.getCell(15, 15)));
@@ -239,6 +240,7 @@ public class AdjTargetTests {
 		assertTrue(testList.contains(board.getCell(12, 14)));
 		assertTrue(testList.contains(board.getCell(17, 15)));
 		assertTrue(testList.contains(board.getCell(16, 14)));
+		assertTrue(testList.contains(board.getCell(12, 16)));
 	}
 
 }

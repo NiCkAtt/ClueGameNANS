@@ -3,6 +3,7 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,13 +21,18 @@ public class Board {
 	private BoardCell[][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
+	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private static Board theInstance = new Board();
 	
+	
 	// methods
-	private Board() {}
+	private Board() {
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+	}
 	
 	public static Board getInstance(){
 		return theInstance;
@@ -219,10 +225,6 @@ public class Board {
 		}
 	}
 
-	public void calcTargets(BoardCell cell, int pathLength){
-
-	}
-
 	public Map<Character, String> getLegend(){
 		return legend;
 	}
@@ -248,13 +250,41 @@ public class Board {
 	public Set<BoardCell> getAdjList(int x, int y) {
 		return adjMatrix.get(this.getCell(x, y));
 	}
+	
+	public void calcTargets(int col, int row, int pathLength){
+		calcTargets(board[row][col], pathLength);
+	}
 
-	public void calcTargets(int i, int j, int dist) {
-		// TODO Auto-generated method stub
+	public void calcTargets(BoardCell startCell, int pathLength){
+		targets.clear();
+		visited.clear();
+		
+		visited.add(startCell);
+		
+		findAllTgts(startCell, pathLength);
+	}
+	
+	//the recursive bit of the target finding algorithm
+	private void findAllTgts(BoardCell start, int dist){
+		for(BoardCell cell : adjMatrix.get(start)){ //for each cell next to us
+			if(!visited.contains(cell)){ //only do this if we haven't seen this cell yet
+				visited.add(cell);
+				
+				if(dist == 1){ //if we can only move 1 more space, add it to targets
+					targets.add(cell);
+				}else if (cell.isDoorway()){ //if we're not done moving, but it's a door, it's a target
+					targets.add(cell);
+				}else if(dist > 1){ //otherwise, move to that space and keep looking
+					findAllTgts(cell, dist-1);
+				}
+				
+				visited.remove(cell);
+			}
+		}
 	}
 
 	public Set<BoardCell> getTargets() {
-		return null;
+		return targets;
 	}
 
 }
