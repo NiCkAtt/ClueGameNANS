@@ -251,7 +251,8 @@ public class Board {
 		return adjMatrix.get(this.getCell(x, y));
 	}
 	
-	public void calcTargets(int col, int row, int pathLength){
+	public void calcTargets(int row, int col, int pathLength){
+		System.out.println(board[row][col]);
 		calcTargets(board[row][col], pathLength);
 	}
 
@@ -261,11 +262,16 @@ public class Board {
 		
 		visited.add(startCell);
 		
+		System.out.println("1: " + adjMatrix.get(startCell));
+		
 		findAllTgts(startCell, pathLength);
 	}
 	
 	//the recursive bit of the target finding algorithm
 	private void findAllTgts(BoardCell start, int dist){
+		
+		System.out.println(adjMatrix.get(start));
+		
 		for(BoardCell cell : adjMatrix.get(start)){ //for each cell next to us
 			if(!visited.contains(cell)){ //only do this if we haven't seen this cell yet
 				visited.add(cell);

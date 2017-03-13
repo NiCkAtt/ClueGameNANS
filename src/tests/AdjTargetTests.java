@@ -146,7 +146,7 @@ public class AdjTargetTests {
 	@Test
 	public void testWalkwayTgts(){
 		//middle of the board, one space
-		board.calcTargets(19,16,1);
+		board.calcTargets(16,19,1);
 		testList = board.getTargets();
 		assertEquals(testList.size(), 4);
 		assertTrue(testList.contains(board.getCell(16, 18)));
@@ -155,7 +155,7 @@ public class AdjTargetTests {
 		assertTrue(testList.contains(board.getCell(17, 19)));
 		
 		//middle of the board, 3 spaces
-		board.calcTargets(19,16,3);
+		board.calcTargets(16,19,3);
 		testList = board.getTargets();
 		assertEquals(testList.size(), 11);
 		//"inner ring" of allowable targets
@@ -173,7 +173,7 @@ public class AdjTargetTests {
 		assertTrue(testList.contains(board.getCell(18, 20)));
 		
 		//in a narrow walkway, 2 spaces
-		board.calcTargets(18,4,2);
+		board.calcTargets(4,18,2);
 		testList = board.getTargets();
 		assertEquals(testList.size(), 4);
 		assertTrue(testList.contains(board.getCell(4, 20)));
@@ -182,7 +182,7 @@ public class AdjTargetTests {
 		assertTrue(testList.contains(board.getCell(5, 19)));
 		
 		//in a narrow walkway, 4 spaces
-		board.calcTargets(18,4,4);
+		board.calcTargets(4,18,4);
 		testList = board.getTargets();
 		assertEquals(testList.size(), 8);
 		//"inner ring" of allowable targets
@@ -201,23 +201,23 @@ public class AdjTargetTests {
 	public void testRoomEntranceTgts(){
 		//This space is within range of 2 doors if you move 3 spaces
 		//One door requires 2 moves, one requires 3
-		board.calcTargets(13,15,3);
+		board.calcTargets(15,13,3);
 		testList = board.getTargets();
 		assertTrue(testList.contains(board.getCell(16, 14)));
 		assertTrue(testList.contains(board.getCell(13, 12)));
 		
 		//this cell is next to a door, but in the wrong direction
-		board.calcTargets(5,20,1);
+		board.calcTargets(20,5,1);
 		assertFalse(testList.contains(board.getCell(20, 4)));
 		//now test with a roll of 3, it should be able to get in
 		board.calcTargets(5,20,3);
-		assertTrue(testList.contains(board.getCell(20, 4)));
+		assertTrue(testList.contains(board.getCell(4,20)));
 	}
 	
 	@Test
 	public void testRoomExitTgts(){
 		//Exit a left-facing door
-		board.calcTargets(22, 8, 2);
+		board.calcTargets(8,22, 2);
 		testList = board.getTargets();
 		for (BoardCell cell : testList){
 			System.out.println(cell.getX() + " " + cell.getY());
@@ -227,7 +227,7 @@ public class AdjTargetTests {
 		assertTrue(testList.contains(board.getCell(9, 21)));
 		assertTrue(testList.contains(board.getCell(7, 21)));
 		
-		board.calcTargets(14,16,4);
+		board.calcTargets(16,14,4);
 		testList = board.getTargets();
 		System.out.println(testList);
 		assertEquals(testList.size(), 8);

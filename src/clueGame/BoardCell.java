@@ -45,7 +45,7 @@ public class BoardCell {
 	
 	@Override
 	public String toString() {
-		return "BoardCell [row=" + row + ", column=" + column + "]";
+		return "BoardCell [row=" + row + ", column=" + column + ", Initial= " + initial + "]";
 	}
 	public DoorDirection getDoorDirection() {
 		return doorDir;
