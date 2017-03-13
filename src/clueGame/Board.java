@@ -238,12 +238,12 @@ public class Board {
 	}
 
 	public BoardCell getCell(int x, int y){
-		return board[y][x];
+		return board[x][y];
 	}
 
 	//Exact same as above, but Rader called it something different in her tests
 	public BoardCell getCellAt(int x, int y){
-		return board[y][x];
+		return board[x][y];
 	}
 
 	//will return set based on key value of cell associated with x and y
